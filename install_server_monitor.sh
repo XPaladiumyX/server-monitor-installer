@@ -15,9 +15,9 @@ sudo apt update -y
 echo "Installation de Python et pip..."
 sudo apt install -y python3 python3-pip
 
-# Installe Flask
-echo "Installation de Flask..."
-pip3 install flask
+# Installe Flask et psutil
+echo "Installation de Flask et psutil..."
+sudo pip3 install flask psutil
 
 # Télécharge le script de monitoring
 echo "Téléchargement du script server_monitor.py..."
