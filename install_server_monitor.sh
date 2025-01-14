@@ -16,7 +16,7 @@ pip3 install flask
 
 # Télécharge le script de monitoring
 echo "Téléchargement du script server_monitor.py..."
-curl -o /opt/server_monitor.py https://votre-domaine.com/server_monitor.py
+curl -o /opt/server_monitor.py https://raw.githubusercontent.com/XPaladiumyX/server-monitor-installer/main/server_monitor.py
 chmod +x /opt/server_monitor.py
 
 # Crée un service systemd
