@@ -7,7 +7,7 @@ import time
 app = Flask(__name__)
 
 # Clé d'authentification pour sécuriser les requêtes
-AUTH_TOKEN = "votre_token_securise"
+AUTH_TOKEN = "ChangeThisByYourTokenForSecurityPurposes"
 
 # Fonction pour obtenir les informations système
 def get_system_info():
