@@ -6,6 +6,11 @@ echo "=== Début de l'installation ==="
 echo "Mise à jour des paquets..."
 sudo apt update -y && sudo apt upgrade -y
 
+# Désactivation du dépôt PHP pour éviter les erreurs avec apt
+echo "Désactivation du dépôt PHP inutile..."
+sudo add-apt-repository --remove ppa:ondrej/php
+sudo apt update -y
+
 # Installe Python et pip
 echo "Installation de Python et pip..."
 sudo apt install -y python3 python3-pip
@@ -41,6 +46,10 @@ echo "Activation du service..."
 sudo systemctl daemon-reload
 sudo systemctl enable server_monitor.service
 sudo systemctl start server_monitor.service
+
+# Vérifie si le service a démarré correctement
+echo "Vérification du statut du service..."
+sudo systemctl status server_monitor.service --no-pager
 
 echo "=== Installation terminée ==="
 echo "Le script server_monitor est maintenant en cours d'exécution."
