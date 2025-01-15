@@ -4,6 +4,7 @@ import socket
 import platform
 import time
 import logging
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -15,6 +16,8 @@ AUTH_TOKEN = "ChangeThisByYourTokenForSecurityPurposes"
 
 # Fonction pour obtenir les informations système
 def get_system_info():
+    boot_time = psutil.boot_time()  # Récupère l'heure du dernier démarrage
+    last_restart = datetime.fromtimestamp(boot_time).strftime('%Y-%m-%d %H:%M:%S')  # Convertir en format lisible
     return {
         "hostname": socket.gethostname(),
         "os": platform.system(),
@@ -22,7 +25,8 @@ def get_system_info():
         "cpu_usage": psutil.cpu_percent(interval=1),
         "ram_usage": psutil.virtual_memory().percent,
         "disk_usage": psutil.disk_usage('/').percent,
-        "uptime": time.time() - psutil.boot_time(),
+        "uptime": time.time() - boot_time,  # Temps écoulé depuis le démarrage
+        "last_restart": last_restart  # Ajouter la date du dernier redémarrage
     }
 
 # Middleware pour désactiver le keep-alive
