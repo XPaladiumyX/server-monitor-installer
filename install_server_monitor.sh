@@ -11,9 +11,10 @@ echo "Désactivation du dépôt PHP inutile..."
 sudo add-apt-repository --remove ppa:ondrej/php
 sudo apt update -y
 
-# Installe Python et pip
-echo "Installation de Python et pip..."
+# Installe Python, pip et Gunicorn
+echo "Installation de Python, pip et Gunicorn..."
 sudo apt install -y python3 python3-pip
+sudo pip3 install gunicorn
 
 # Installe Flask et psutil
 echo "Installation de Flask et psutil..."
@@ -24,15 +25,16 @@ echo "Téléchargement du script server_monitor.py..."
 curl -o /opt/server_monitor.py https://raw.githubusercontent.com/XPaladiumyX/server-monitor-installer/main/server_monitor.py
 chmod +x /opt/server_monitor.py
 
-# Crée un service systemd
-echo "Configuration du service systemd..."
+# Crée un service systemd pour Gunicorn
+echo "Configuration du service systemd pour Gunicorn..."
 cat <<EOF | sudo tee /etc/systemd/system/server_monitor.service
 [Unit]
 Description=Server Monitor Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /opt/server_monitor.py
+ExecStart=/usr/local/bin/gunicorn -w 4 -b 0.0.0.0:5000 server_monitor:app
+WorkingDirectory=/opt
 Restart=always
 User=nobody
 Group=nogroup
@@ -52,4 +54,4 @@ echo "Vérification du statut du service..."
 sudo systemctl status server_monitor.service --no-pager
 
 echo "=== Installation terminée ==="
-echo "Le script server_monitor est maintenant en cours d'exécution."
+echo "Le script server_monitor est maintenant en cours d'exécution avec Gunicorn."
